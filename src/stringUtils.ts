@@ -1,10 +1,13 @@
 import { PhonemeTypes, Vowels } from "./constants"
+import { getTranslations, updateTranslations } from "./translationsManager"
 import { TTranslationDictionary } from "./types"
 
-export const getWordTranslation = (word: string, targetVowelPhonemes: string[], targetConsonantPhonemes: string[], translatedDictionary: TTranslationDictionary) => {    
+export const getWordTranslation = (word: string, targetVowelPhonemes: string[], targetConsonantPhonemes: string[]): string => {    
+    let translatedDictionary: TTranslationDictionary = getTranslations()
+    
     // prevent re-translation
     if (translatedDictionary[word.toLowerCase()]) {
-        return {translatedWord: translatedDictionary[word.toLowerCase()], translatedDictionary, isUpdated: false}
+        return translatedDictionary[word.toLowerCase()]
     }
 
     const isCapitalized: boolean = word[0] === word[0].toUpperCase()
@@ -16,7 +19,9 @@ export const getWordTranslation = (word: string, targetVowelPhonemes: string[], 
         translatedWord = translatedWord[0].toUpperCase() + translatedWord.substring(1)
     }
 
-    return {translatedWord, translatedDictionary, isUpdated: true}
+    updateTranslations(word.toLowerCase(), translatedWord.toLowerCase())
+
+    return translatedWord
 }
 
 const findPhonemes = (word: string): PhonemeTypes[] => {
