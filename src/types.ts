@@ -1,1 +1,1 @@
-export type TTranslationDictionary = Record<string, string>
+export type TTranslationDictionary = Record<string, string>;

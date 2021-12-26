@@ -1,9 +1,9 @@
 {
-    "devDependencies": {
-        "@types/node": "^17.0.4"
-    },
-    "scripts": {
-        "build": "npx tsc",
-        "translate": "node ./build/main.js"
-    }
+  "devDependencies": {
+    "@types/node": "^17.0.4"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "translate": "node ./build/main.js"
+  }
 }
