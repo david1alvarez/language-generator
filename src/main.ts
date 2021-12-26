@@ -1,13 +1,24 @@
-import { BlackSpeechConstants, BlackSpeechVowels } from "./phonemes"
-import { getWordTranslation } from "./stringUtils"
+import {
+  BlackSpeechConsonants,
+  BlackSpeechInitialConsonants,
+  BlackSpeechTerminalConsonants,
+  BlackSpeechVowels,
+} from "./phonemes";
+import { getWordTranslation } from "./stringUtils";
 
-let userText = process.argv[2]
+let userText = process.argv[2];
 
 const translateText = (text: string): string => {
-    const words = text.split(" ")
-    const translatedWords: string[] = words.map(word => getWordTranslation(word, BlackSpeechVowels, BlackSpeechConstants))
-    const translatedText = translatedWords.join(" ")
-    return translatedText
-}
+  const words = text.split(" ");
+  const translatedWords: string[] = words.map((word) =>
+    getWordTranslation(word, BlackSpeechVowels, {
+      initial: BlackSpeechInitialConsonants,
+      medial: BlackSpeechConsonants,
+      terminal: BlackSpeechTerminalConsonants,
+    })
+  );
+  const translatedText = translatedWords.join(" ");
+  return translatedText;
+};
 
-console.log(translateText(userText))
+console.log(translateText(userText));

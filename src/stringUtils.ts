@@ -2,7 +2,7 @@ import { PhonemeTypes, Vowels } from "./constants"
 import { getTranslations, updateTranslations } from "./translationsManager"
 import { TTranslationDictionary } from "./types"
 
-export const getWordTranslation = (word: string, targetVowelPhonemes: string[], targetConsonantPhonemes: string[]): string => {    
+export const getWordTranslation = (word: string, targetVowelPhonemes: string[], targetConsonantPhonemes: {initial: string[], medial: string[], terminal: string[]}): string => {    
     let translatedDictionary: TTranslationDictionary = getTranslations()
     
     // prevent re-translation
@@ -44,14 +44,21 @@ const findPhonemes = (word: string): PhonemeTypes[] => {
     return phonemeStructure
 }
 
-const wordCreator = (phonemeStructure: PhonemeTypes[], targetVowelPhonemes: string[], targetConsonantPhonemes: string[]): string => {
+const wordCreator = (phonemeStructure: PhonemeTypes[], targetVowelPhonemes: string[], targetConsonantPhonemes: {initial: string[], medial: string[], terminal: string[]}): string => {
     let word: string = ""
-    phonemeStructure.forEach(phoneme => {
+    phonemeStructure.forEach((phoneme, i) => {
         let addition: string
         if (phoneme === PhonemeTypes.VOWEL) {
             addition = randomSelector(targetVowelPhonemes)
         } else {
-            addition = randomSelector(targetConsonantPhonemes)
+            if (i === 0) {
+                addition = randomSelector(targetConsonantPhonemes.initial)
+            } else if (i === phonemeStructure.length - 1) {
+                addition = randomSelector(targetConsonantPhonemes.terminal)
+            } else {
+                addition = randomSelector(targetConsonantPhonemes.medial)
+            }
+            
         }
         word = word + addition
     })
